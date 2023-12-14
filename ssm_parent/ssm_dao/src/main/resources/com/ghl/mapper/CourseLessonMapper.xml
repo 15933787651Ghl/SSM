@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.CourseLessonMapper">
+
+    <select id="find" parameterType="int"
+            resultMap="BaseResultMap">
+        SELECT
+        cs.*,
+        <include refid="lesson_column_list"/>
+        FROM course_section cs
+        LEFT JOIN course_lesson cl ON cs.id = cl.section_id
+        WHERE cs.course_id = #{courseId} ORDER BY cs.order_num ;
+    </select>
+    <!-- 一对多配置,一个章节下有多个课时 -->
+    <resultMap id="BaseResultMap" type="com.ghl.pojo.CourseSection">
+        <result property="id" column="id"></result>
+        <result property="courseId" column="course_id"></result>
+        <result property="sectionName" column="section_name"></result>
+        <result property="description" column="description"></result>
+        <result property="orderNum" column="order_num"></result>
+        <result property="status" column="status"></result>
+        <!-- 使用 collection,配置一对多关系 -->
+        <collection property="lessonList" resultMap="lessonListResultMap"/>
+    </resultMap>
+
+    <resultMap id="lessonListResultMap" type="com.ghl.pojo.CourseLesson">
+        <id property="id" column="lessonId"></id>
+        <result property="courseId" column="course_id"></result>
+        <result property="sectionId" column="section_id"></result>
+        <result property="theme" column="theme"></result>
+        <result property="duration" column="duration"></result>
+        <result property="isFree" column="is_free"></result>
+        <result property="orderNum" column="order_num"></result>
+        <result property="status" column="status"></result>
+    </resultMap>
+    <!-- 课时表字段信息 -->
+    <sql id="lesson_column_list">
+        cl.id as lessonId,
+cl.course_id,
+cl.section_id,
+cl.theme,
+cl.duration,
+cl.is_free,
+cl.order_num,
+cl.status
+    </sql>
+
+<!--    public   Course findCourse(Integer courseId);-->
+    <select id="findCourse" parameterType="java.lang.Integer" resultType="com.ghl.pojo.Course">
+        SELECT *
+        FROM course
+        WHERE id= #{courseId}
+    </select>
+
+<!--    public void updateById(CourseSection courseSection);-->
+    <update id="updateById" parameterType="com.ghl.pojo.CourseSection">
+            update course_section set course_id=#{courseId}
+                                    ,section_name=#{sectionName}
+                                    ,description=#{description}
+                                    ,order_num=#{orderNum}
+                                  ,update_time=#{updateTime}
+            where id=#{id}
+    </update>
+    
+<!--    public void insert(CourseSection courseSection);-->
+    <insert id="insert" parameterType="com.ghl.pojo.CourseSection">
+        insert into course_section(
+                                   course_id,
+                                   section_name,
+                                   description,
+                                   order_num,
+                                   create_time,
+                                   update_time
+        ) values(#{courseId},
+                 #{sectionName},
+                 #{description},
+                 #{orderNum},
+                 #{createTime},
+                 #{updateTime})
+    </insert>
+<!--    public void updateStatus(CourseSection courseSection);-->
+    <update id="updateStatus" parameterType="com.ghl.pojo.CourseSection">
+        update course_section set status=#{status} where id=#{id}
+    </update>
+
+<!--     public void updateLesson(CourseLesson courseLesson);-->
+        <update id="updateLesson" parameterType="com.ghl.pojo.CourseLesson">
+
+            update course_lesson set course_id=#{courseId},
+                                     section_id=#{sectionId},
+                                     theme=#{theme},
+                                     duration=#{duration},
+                                     is_free=#{isFree},
+                                     order_num=#{orderNum},
+                                     update_time=#{updateTime}
+                                    where id=#{id}
+        </update>
+
+<!--    public void insertLesson(CourseLesson courseLesson);-->
+        <insert id="insertLesson" parameterType="com.ghl.pojo.CourseLesson">
+            insert into course_lesson(course_id,
+                                      section_id,
+                                      theme,
+                                      duration,
+                                      is_free,
+                                      order_num,
+                                      update_time,
+                                      create_time)
+                values(
+                          #{courseId},
+                          #{sectionId},
+                          #{theme},
+                          #{duration},
+                          #{isFree},
+                          #{orderNum},
+                          #{updateTime},
+                       #{createTime}
+                      )
+        </insert>
+
+</mapper>

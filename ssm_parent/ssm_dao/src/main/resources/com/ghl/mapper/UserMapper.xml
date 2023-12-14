@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.UserMapper">
+
+<!--    public List<UserVo> findAll(UserVo userVo);-->
+    <select id="findAll" parameterType="com.ghl.vo.UserVo" resultType="com.ghl.vo.UserVo">
+
+        select * from user
+        <where>
+            <if test="name!=null and name!=''">
+               and name=#{name}
+            </if>
+            <if test="startCreateTime!=null">
+                and create_time <![CDATA[>=]]> #{startCreateTime}
+            </if>
+            <if test="endCreateTime!=null">
+                and create_time <![CDATA[<=]]> #{endCreateTime}
+            </if>
+        </where>
+
+    </select>
+
+<!--     public void update(User user);-->
+    <update id="update" parameterType="com.ghl.pojo.User">
+        update user  set status =#{status} where  id =#{id}
+    </update>
+</mapper>

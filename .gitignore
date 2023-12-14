@@ -1,0 +1,5 @@
+# Project exclude paths
+/ssm_parent/ssm_dao/target/
+/ssm_parent/ssm_pojo/target/
+/ssm_parent/ssm_service/target/
+/ssm_parent/ssm_web/target/

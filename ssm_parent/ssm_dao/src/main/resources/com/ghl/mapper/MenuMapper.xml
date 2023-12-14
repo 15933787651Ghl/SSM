@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.MenuMapper">
+    <insert id="insert" parameterType="com.ghl.pojo.Menu">
+        insert into menu(name,
+            href,
+            parent_id,
+            description,
+            icon,
+            shown,
+            order_num,
+            level,
+            created_time,
+            updated_time,
+            created_by,
+            updated_by)
+        values(
+            #{name},
+            #{href},
+            #{parentId},
+            #{description},
+            #{icon},
+            #{shown},
+            #{orderNum},
+            #{level},
+            #{createdTime},
+            #{updatedTime},
+            #{createdBy},
+            #{updatedBy}
+            )
+    </insert>
+    <update id="update" parameterType="com.ghl.pojo.Menu" >
+        update menu set
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="href!=null and href!=''">
+            href = #{href},
+        </if>
+        <if test="parentId!=null">
+            parent_id=#{parentId},
+        </if>
+        <if test="description!=null and description!=''">
+            description=#{description},
+        </if>
+        <if test="icon!=null and icon!=''">
+            icon=#{icon},
+        </if>
+        <if test="shown!=null ">
+            shown=#{shown},
+        </if>
+        <if test="orderNum!=null">
+            order_num=#{orderNum},
+        </if>
+        <if test="level!=null ">
+            level=#{level},
+        </if>
+        <if test="updatedTime!=null">
+            updated_time=#{updatedTime},
+        </if>
+        <if test="updatedBy!=null and updatedBy!=''">
+            updated_by=#{updatedBy}
+        </if>
+        where id=#{id}
+    </update>
+
+    <!--  public List<Menu> findAll();-->
+    <select id="findAll" resultType="com.ghl.vo.MenuVo">
+        select * from menu
+    </select>
+<!--    public  findByRoleId(Integer roleId);-->
+    <select id="findByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select menu.id
+        from
+            menu,
+            roles,
+            role_menu_relation
+        where
+            menu.id=role_menu_relation.menu_id
+          AND roles.id=role_menu_relation.role_id
+          AND roles.id=#{roleId}
+    </select>
+<!--      List<MenuVo> findById(Integer parentId);;-->
+
+    <select id="findById" parameterType="com.ghl.vo.MenuVo" resultType="com.ghl.vo.MenuVo">
+        select * from menu where id=#{parentId}
+
+    </select>
+    <select id="findByzId" resultType="com.ghl.pojo.MenuInfo">
+        select * from menu where id=#{id}
+    </select>
+</mapper>

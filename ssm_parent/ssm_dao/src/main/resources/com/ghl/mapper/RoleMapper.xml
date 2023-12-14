@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.RoleMapper">
+
+<!--   public List<Roles> find(Roles roles);-->
+    <select id="find" parameterType="com.ghl.pojo.Roles" resultType="com.ghl.pojo.Roles">
+        select * from roles
+            <where>
+                <if test="name!=null and name!=''">
+                    and name=#{name}
+                </if>
+            </where>
+    </select>
+<!--    public void updateById(Roles roles);-->
+    <update id="updateById" parameterType="com.ghl.pojo.Roles">
+        update  roles set name=#{name},
+                          code=#{code},
+                          description=#{description},
+                          updated_by=#{updatedBy},
+                          updated_time=#{updatedTime}
+                      where id=#{id}
+    </update>
+
+<!--    public void insert(Roles roles);-->
+    <insert id="insert" parameterType="com.ghl.pojo.Roles">
+        insert into roles(name,code,description,created_by,updated_by,created_time,updated_time) values (#{name},#{code},#{description},#{createdBy},#{updatedBy},#{createdTime},#{updatedTime})
+    </insert>
+<!--    public void deleteById(Integer id);-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from roles where id=#{id}
+    </delete>
+
+
+</mapper>

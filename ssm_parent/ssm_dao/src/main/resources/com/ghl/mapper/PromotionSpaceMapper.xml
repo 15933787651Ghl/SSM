@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.PromotionSpaceMapper">
+
+
+<!--    public List<PromotionSpace> findAll();-->
+
+    <select id="findAll" resultType="com.ghl.pojo.PromotionSpace">
+        select * from promotion_space
+    </select>
+<!--    public void update(PromotionSpace promotionSpace);-->
+    <update id="update" parameterType="com.ghl.pojo.PromotionSpace">
+        update promotion_space set name=#{name},updateTime=#{updateTime} where id=#{id}
+    </update>
+
+<!--      public void insert(PromotionSpace promotionSpace);-->
+    <insert id="insert" parameterType="com.ghl.pojo.PromotionSpace">
+        insert  into promotion_space (name,createTime,updateTime) values (#{name},#{createTime},#{updateTime})
+    </insert>
+
+
+<!--     public PromotionSpace findById(Integer id);-->
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.ghl.pojo.PromotionSpace">
+        select * from promotion_space where id=#{id}
+    </select>
+
+    </mapper>

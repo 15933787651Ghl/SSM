@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.ResourceMapper">
+    <insert id="insert" parameterType="com.ghl.pojo.Resource">
+        insert into resource(url,name,category_id,description,created_time,updated_time,created_by,updated_by)
+values (
+
+        #{url},
+        #{name},
+        #{categoryId},
+        #{description},
+        #{createdTime},
+        #{updatedTime},
+        #{createdBy},
+        #{updatedBy}
+       )
+    </insert>
+    <update id="updateById" parameterType="com.ghl.pojo.Resource">
+        update resource set
+        name=#{name},
+        url=#{url},
+        category_id=#{categoryId},
+        description=#{description},
+        updated_time=#{updatedTime},
+        updated_by=#{updatedBy}
+        where id=#{id}
+    </update>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from resource where id=#{id}
+    </delete>
+
+
+    <select id="findAllByName" resultType="com.ghl.pojo.Resource">
+        select * from  resource where name=#{name} and url=#{url}
+    </select>
+</mapper>

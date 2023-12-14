@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghl.mapper.PromotionAdMapper">
+<!--public List<PromotionAd> findAll();-->
+<select id="findAll" resultType="com.ghl.pojo.PromotionAd">
+    select  * from promotion_ad
+</select>
+<!--     public void update(PromotionAd promotionAd);-->
+    <update id="update" parameterType="com.ghl.pojo.PromotionAd">
+        update promotion_ad set name=#{name},
+                                img=#{img},
+                                link=#{link},
+                                spaceId=#{spaceId},
+                                startTime=#{startTime},
+                                endTime=#{endTime},
+                                status=#{status},
+                                text=#{text},
+                                updateTime=#{updateTime}
+            where id=#{id}
+    </update>
+
+<!--     public void insert(PromotionAd promotionAd);-->
+
+    <insert id="insert" parameterType="com.ghl.pojo.PromotionAd">
+            insert into promotion_ad(name,img,link,priority,spaceId,startTime,
+                                     endTime,status,text,createTime,updateTime)values (
+                                                                                       #{name},
+                                                                                       #{img},
+                                                                                       #{link},
+                                                                                       #{priority},
+                                                                                       #{spaceId},
+                                                                                       #{startTime},
+                                                                                       #{endTime},
+                                                                                       #{status},
+                                                                                       #{text},
+                                                                                       #{createTime},
+                                                                                       #{updateTime}
+                                                                                                  )
+
+
+    </insert>
+
+<!--    public void updateById(PromotionAd promotionAd);-->
+    <update id="updateById" parameterType="com.ghl.pojo.PromotionAd">
+        update promotion_ad set  status=#{status} where id=#{id}
+    </update>
+
+<!--    public PromotionAd findById(Integer id);-->
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.ghl.pojo.PromotionAd">
+        select  * from promotion_ad where id=#{id}
+
+    </select>
+
+
+</mapper>
